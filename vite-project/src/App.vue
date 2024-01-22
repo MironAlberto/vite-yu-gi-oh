@@ -3,11 +3,12 @@ import AppHeader from './components/AppHeader.vue';
 import AppMain from './components/AppMain.vue';
 import AppFooter from './components/AppFooter.vue';
 import Axios from 'axios';
+import { store } from './store.js';
 
 export default {
     data() {
         return {
-
+            store
         };
     },
     components: {
@@ -18,19 +19,15 @@ export default {
     methods: {
 
     },
-    mounted(){
-        Axios.get.apply().then((response) => {
-            console.log(response);
+    created(){
+        Axios.get(this.store.api).then((response) => {
+            this.store.cards = response.data.data;
         });
     }
 }
 </script>
 
 <template>
-    <h1>
-        Template Vite 
-    </h1>
-
     <AppHeader/>
 
     <AppMain/>
