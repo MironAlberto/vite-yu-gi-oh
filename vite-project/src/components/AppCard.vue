@@ -16,12 +16,12 @@ export default {
             <div class="img-box">
                 <img :src="card.card_images[0].image_url" alt="card-image">
             </div>
-            <h6 class="pt-3 text-white">
+            <p class="pt-3 text-white font-size">
                 {{ card.name }}
-            </h6>
-            <h4 class="pt-2">
+            </p>
+            <h5 class="pt-2">
                 {{ card.archetype }}
-            </h4>
+            </h5>
         </div>
     </div>
 </template>
@@ -34,14 +34,18 @@ export default {
     padding: 30px;
 
     .card{
-        height: 400px;
+        height: 420px;
         background-color: #D48F38;
         .img-box{
             max-width: 200px;
-        }
+        } 
 
         img{
             width: 100%;
+        }
+
+        .font-size{
+            font-size: 14px;
         }
     }
 }

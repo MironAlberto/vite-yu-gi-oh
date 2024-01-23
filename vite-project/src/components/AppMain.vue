@@ -1,31 +1,59 @@
 <script>
-import AppCard from './AppCard.vue';
-import { store } from '../store.js';
+    import AppCard from './AppCard.vue';
+    import { store } from '../store.js';
+    import Axios from 'axios';
 
-export default {
-    data() {
-        return {
-            store
-        };
-    },
-    methods: {
+    export default {
+        data() {
+            return {
+                store,
+            };
+        },
+        methods: {
+            archetypeSelection(){
+                if (store.archetypeName.length > 0){
+                    let archetypeResearchApi = this.store.archetypeResearchApi + this.store.archetypeName;
+                    this.store.archetypeName = '';
+                    Axios.get(archetypeResearchApi)
+                    .then((response) => {
+                    this.store.cards = response.data.data;
+                    })
+                }
+            },
+            searchingReset(){
+                this.store.api = this.store.api;
+                
+                Axios.get(this.store.api).then((response) => {
+                this.store.cards = response.data.data; 
+                });
+            
+            }
 
-    },
-    components: {
-        AppCard
+        },
+        components: {
+            AppCard
+        },
     }
-}
+        
 </script>
 
 <template>
     <main>
         <div class="container">
-            <select class="form-select" aria-label="archetype">
-                <option selected>Alien</option>
-                <option value="1">Archfiend</option>
-                <option value="2">Noble Knight</option>
-                <option value="3">Infernoble Arms</option>
-            </select>
+            <form class="d-flex">
+                <select class="form-select" v-model="store.archetypeName">
+                    <option value='' disabled>Choose your Archetype</option>
+                    <option :value="archetype.archetype_name" v-for="(archetype, index) in store.searchingArchetype" :key="index">
+                        {{ archetype.archetype_name }}
+                    </option>
+                </select>
+                <button type="button" class="btn btn-primary ms-3" @click="archetypeSelection()">
+                    Search
+                </button>
+                <button type="button" class="btn btn-warning ms-3 text-white" @click="searchingReset()">
+                    Reset
+                </button>
+            </form>
 
             <section class="content">
                 <div class="found">
@@ -52,7 +80,7 @@ main{
         padding: 20px;
 
         .form-select{
-            max-width: 150px;
+            max-width: 300px;
         }
 
         .content{

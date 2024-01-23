@@ -23,7 +23,11 @@ export default {
         Axios.get(this.store.api).then((response) => {
             this.store.cards = response.data.data;
         });
+        Axios.get(this.store.archetypeApi).then((response) => {
+            this.store.searchingArchetype = response.data;
+        });
     }
+    
 }
 </script>
 
